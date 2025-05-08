@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrera de Carros</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    .fondo {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to top, #C4EDFF, #84EDFF);
+      z-index: -3;
+    }
+
+    /* Montañas con CSS */
+    .montanas {
+      position: absolute;
+      bottom: 120px;
+      width: 200%;
+      height: 300px;
+      background: linear-gradient(to bottom, #4B3C2B, #8A6D4B);
+      clip-path: polygon(0% 50%, 10% 70%, 20% 50%, 30% 80%, 40% 70%, 50% 90%, 60% 80%, 70% 85%, 80% 70%, 90% 80%, 100% 60%, 100% 100%, 0% 100%);
+      animation: moverMontanas 20s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes moverMontanas {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Árboles con CSS */
+    .arboles {
+      position: absolute;
+      bottom: 100px;
+      width: 200%;
+      height: 150px;
+      animation: moverArboles 10s linear infinite;
+      z-index: -1;
+    }
+
+    .arbol {
+      position: absolute;
+      bottom: 0;
+      width: 60px;
+      height: 150px;
+      animation: moverArbol 3s ease-in-out infinite;
+    }
+
+    .tronco {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 60px;
+      background-color: #3E1F00;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .copa {
+      position: absolute;
+      bottom: 60px;
+      width: 70px;
+      height: 70px;
+      background-color: #2E8B57;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .copa2 {
+      position: absolute;
+      bottom: 100px;
+      width: 90px;
+      height: 90px;
+      background-color: #228B22;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .copa3 {
+      position: absolute;
+      bottom: 140px;
+      width: 110px;
+      height: 110px;
+      background-color: #006400;
+      border-radius: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes moverArbol {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes moverArboles {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Sol interactivo */
+    .sol {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background-color: yellow;
+      border-radius: 50%;
+      box-shadow: 0px 0px 50px rgba(255, 255, 0, 0.6);
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+    }
+
+    .sol:hover {
+      transform: translateX(-50%) scale(1.2);
+      box-shadow: 0px 0px 100px rgba(255, 255, 0, 1);
+    }
+
+    /* Carretera */
+    .estrada {
+      background: linear-gradient(to bottom, #3D4040, #2C2E2E);
+      height: 120px;
+      width: 100vw;
+      position: fixed;
+      bottom: 0;
+    }
+
+    .carro {
+      position: absolute;
+      transform: scale(0.4);
+      animation-name: carroandando;
+      animation-fill-mode: forwards;
+      animation-iteration-count: 1;
+      animation-play-state: running;
+    }
+
+    .carro1 { bottom: 100px; animation-delay: 3s; animation-duration: 5s; }
+    .carro2 { bottom: 50px; animation-delay: 3s; animation-duration: 6s; }
+    .carro3 { bottom: 0px; animation-delay: 3s; animation-duration: 7s; }
+
+    @keyframes carroandando {
+      0% { left: -200px; }
+      100% { left: 100vw; }
+    }
+
+    #carcaca1, #carcaca2 {
+      background-color: red;
+      position: absolute;
+      border-radius: 10px;
+    }
+
+    #carcaca1 {
+      height: 55px;
+      width: 100px;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 100px;
+      top: 0;
+      left: 29px;
+    }
+
+    #carcaca2 {
+      height: 50px;
+      width: 155px;
+      top: 40px;
+      left: -28px;
+    }
+
+    #roda1, #roda2 {
+      width: 55px;
+      height: 55px;
+      border-radius: 200px;
+      background-color: black;
+      position: absolute;
+      top: 30px;
+    }
+
+    #roda1 { left: 5px; }
+    #roda2 { left: 85px; }
+
+    #aro1, #aro2 {
+      width: 30px;
+      height: 30px;
+      background-color: #BFBFBF;
+      position: absolute;
+      animation: gira 0.5s linear infinite;
+    }
+
+    #aro1 { top: 41px; left: 18px; }
+    #aro2 { top: 41px; left: 98px; }
+
+    @keyframes gira {
+      to { transform: rotate(360deg); }
+    }
+
+    #janela1 {
+      background-color: #fff;
+      height: 38px;
+      width: 50px;
+      position: absolute;
+      border-radius: 10px;
+      border-top-left-radius: 40px;
+      border-top-right-radius: 100px;
+      top: -35px;
+      left: 70px;
+    }
+
+    #janela2 {
+      background-color: #fff;
+      height: 34px;
+      width: 20px;
+      position: absolute;
+      top: -30px;
+      left: 40px;
+      border-radius: 5px;
+    }
+
+    /* Semáforo */
+    .semaforo {
+      position: fixed;
+      top: 200px;
+      left: 20px;
+      width: 40px;
+      height: 120px;
+      background-color: #333;
+      border-radius: 10px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .luz {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: #111;
+    }
+
+    .luz.roja {
+      animation: luzRoja 3s forwards;
+    }
+
+    .luz.amarilla {
+      animation: luzAmarilla 3s forwards;
+    }
+
+    .luz.verde {
+      animation: luzVerde 3s forwards;
+    }
+
+    @keyframes luzRoja {
+      0% { background-color: red; }
+      33% { background-color: red; }
+      34%, 100% { background-color: #111; }
+    }
+
+    @keyframes luzAmarilla {
+      0%, 33% { background-color: #111; }
+      34% { background-color: yellow; }
+      66% { background-color: yellow; }
+      67%, 100% { background-color: #111; }
+    }
+
+    @keyframes luzVerde {
+      0%, 66% { background-color: #111; }
+      67% { background-color: lime; }
+      100% { background-color: lime; }
+    }
+
+    /* Nubes */
+    .nube {
+      position: absolute;
+      width: 200px;
+      height: 120px;
+      background-color: #fff;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: moverNubes 15s linear infinite;
+    }
+
+    .nube1 { top: 50px; left: 10%; }
+    .nube2 { top: 100px; left: 40%; }
+    .nube3 { top: 150px; left: 70%; }
+
+    @keyframes moverNubes {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(100vw); }
+    }
+
+    /* Pájaros volando */
+    .pajaro {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #000;
+      border-radius: 50%;
+      animation: volar 6s infinite;
+    }
+
+    .pajaro1 { top: 80px; left: 20%; animation-duration: 5s; }
+    .pajaro2 { top: 120px; left: 50%; animation-duration: 7s; }
+    .pajaro3 { top: 140px; left: 80%; animation-duration: 6s; }
+
+    @keyframes volar {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(100vw); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Semáforo -->
+  <div class="semaforo">
+    <div class="luz roja"></div>
+    <div class="luz amarilla"></div>
+    <div class="luz verde"></div>
+  </div>
+
+  <!-- Fondo animado -->
+  <div class="fondo">
+    <div class="montanas"></div>
+    <div class="arboles">
+      <!-- Árboles creados con CSS -->
+      <div class="arbol" style="left: 10%;">
+        <div class="tronco"></div>
+        <div class="copa"></div>
+        <div class="copa2"></div>
+        <div class="copa3"></div>
+      </div>
+      <div class="arbol" style="left: 30%;">
+        <div class="tronco"></div>
+        <div class="copa"></div>
+        <div class="copa2"></div>
+        <div class="copa3"></div>
+      </div>
+      <div class="arbol" style="left: 50%;">
+        <div class="tronco"></div>
+        <div class="copa"></div>
+        <div class="copa2"></div>
+        <div class="copa3"></div>
+      </div>
+      <div class="arbol" style="left: 70%;">
+        <div class="tronco"></div>
+        <div class="copa"></div>
+        <div class="copa2"></div>
+        <div class="copa3"></div>
+      </div>
+    </div>
+    <!-- Nubes -->
+    <div class="nube nube1"></div>
+    <div class="nube nube2"></div>
+    <div class="nube nube3"></div>
+    <!-- Pájaros -->
+    <div class="pajaro pajaro1"></div>
+    <div class="pajaro pajaro2"></div>
+    <div class="pajaro pajaro3"></div>
+    <!-- Sol -->
+    <div class="sol"></div>
+  </div>
+
+  <!-- Carretera -->
+  <div class="estrada"></div>
+
+  <!-- Carros -->
+  <div class="carro carro1">
+    <div id="carcaca1">
+      <div id="carcaca2">
+        <div id="roda1"></div>
+        <div id="roda2"></div>
+        <div id="aro1"></div>
+        <div id="aro2"></div>
+        <div id="janela1"></div>
+        <div id="janela2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="carro carro2">
+    <div id="carcaca1">
+      <div id="carcaca2">
+        <div id="roda1"></div>
+        <div id="roda2"></div>
+        <div id="aro1"></div>
+        <div id="aro2"></div>
+        <div id="janela1"></div>
+        <div id="janela2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="carro carro3">
+    <div id="carcaca1">
+      <div id="carcaca2">
+        <div id="roda1"></div>
+        <div id="roda2"></div>
+        <div id="aro1"></div>
+        <div id="aro2"></div>
+        <div id="janela1"></div>
+        <div id="janela2"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
